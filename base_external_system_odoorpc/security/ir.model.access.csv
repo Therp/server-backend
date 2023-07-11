@@ -1,2 +1,2 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_external_system_rpc_admin,access_external_system_rpc_admin,model_external_system_odoo,base.group_system,1,1,1,1
+access_external_system_odoo_admin,access_external_system_odoo_admin,model_external_system_odoo,base.group_system,1,1,1,1

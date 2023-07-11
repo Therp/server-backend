@@ -8,6 +8,8 @@
         <field name="name">External connection via RPC</field>
         <field name="system_type">external.system.odoo</field>
         <field name="remote_path">http://localhost:8069</field>
+        <field name="host">localhost</field>
+        <field name="port">8069</field>
         <field name="company_ids" eval="[(5, 0), (4, ref('base.main_company'))]" />
     </record>
 </odoo>

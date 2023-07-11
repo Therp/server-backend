@@ -16,5 +16,6 @@
     "data": [
         "demo/external_system_odoo_demo.xml",
         "security/ir.model.access.csv",
+        "views/external_system_views.xml",
     ],
 }
