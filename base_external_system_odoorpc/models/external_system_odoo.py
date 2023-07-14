@@ -1,6 +1,5 @@
 # Copyright 2023 Therp BV <https://therp.nl>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
-import os
 from urllib.error import URLError
 
 import odoorpc
@@ -28,11 +27,18 @@ class ExternalSystemOdoo(models.Model):
             user_model.read([ids[0]], ["name"])[0]
         except Exception as e:
             raise UserError(_("Connection failed.\n\nDETAIL: %s") % e) from e
-        return super(ExternalSystemOdoo, self).external_test_connection()
+        return super().external_test_connection()
 
     def _connect(self):
         """Return connection object"""
         self.ensure_one()
+        if not all([self.host, self.port, self.db_name, self.username, self.password]):
+            raise UserError(
+                _(
+                    "Connection failed. Please make sure that all fields"
+                    " are filled: Database, Host, Port, Username, Password."
+                )
+            )
         try:
             odoo = odoorpc.ODOO(
                 self.host,
@@ -46,24 +52,3 @@ class ExternalSystemOdoo(models.Model):
             ) from exc
         odoo.login(self.db_name, self.username, self.password)
         return odoo
-
-    def external_get_client(self):
-        """Return a usable client representing the remote system."""
-        super(ExternalSystemOdoo, self).external_get_client()
-        if self.system_id.remote_path:
-            ExternalSystemOdoo.previous_dir = os.getcwd()
-            os.chdir(self.system_id.remote_path)
-        return os
-
-    def external_destroy_client(self, client):
-        """Perform any logic necessary to destroy the client connection.
-
-        Args:
-            client (mixed): The client that was returned by
-             ``external_get_client``.
-        """
-        result = super(ExternalSystemOdoo, self).external_destroy_client(client)
-        if ExternalSystemOdoo.previous_dir:
-            os.chdir(ExternalSystemOdoo.previous_dir)
-            ExternalSystemOdoo.previous_dir = None
-        return result

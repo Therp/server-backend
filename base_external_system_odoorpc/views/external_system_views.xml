@@ -15,6 +15,12 @@
                     attrs="{'invisible':[('system_type','!=', 'external.system.odoo')]}"
                 />
         	</xpath>
+            <!--Hide unneeded field-->
+            <xpath expr="//field[@name='remote_path']" position="attributes">
+                <attribute
+                    name="attrs"
+                >{'invisible':[('system_type','=', 'external.system.odoo')]}</attribute>
+            </xpath>
         </field>
     </record>
 
