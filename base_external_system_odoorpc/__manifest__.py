@@ -14,7 +14,7 @@
     "depends": ["base_external_system"],
     "external_dependencies": {"python": ["odoorpc"]},
     "data": [
-        "demo/external_system_odoo_demo.xml",
+        #"demo/external_system_odoo_demo.xml",
         "security/ir.model.access.csv",
         "views/external_system_views.xml",
     ],
