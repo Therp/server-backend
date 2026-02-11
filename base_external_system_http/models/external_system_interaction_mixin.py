@@ -19,28 +19,34 @@ class ExternalSystemInteractionMixin(models.AbstractModel):
     _name = "external.system.interaction.mixin"
     _description = __doc__
 
-    def get(self, endpoint=None, params=None, **kwargs):
+    def get(self, endpoint=None, params=None, raise_exception=True, **kwargs):
         """Pass transparantly to request.get, but check response."""
         url = self._get_url(endpoint=endpoint)
         _logger.debug("Will get data from %s", url)
         timeout = kwargs.pop("timeout", 60)  # default timeout a full minute.
         response = requests.get(url, params=params, timeout=timeout, **kwargs)
+        if not raise_exception:
+            return response
         return self._return_checked_response(endpoint, response)
 
-    def post(self, endpoint=None, data=None, json=None, **kwargs):
+    def post(self, endpoint=None, data=None, json=None, raise_exception=True, **kwargs):
         """Post data to http server."""
         url = self._get_url(endpoint=endpoint)
         _logger.debug("Will post data to %s", url)
         timeout = kwargs.pop("timeout", 60)  # default timeout a full minute.
         response = requests.post(url, data=data, json=json, timeout=timeout, **kwargs)
+        if not raise_exception:
+            return response
         return self._return_checked_response(endpoint, response)
 
-    def put(self, endpoint=None, data=None, json=None, **kwargs):
+    def put(self, endpoint=None, data=None, json=None, raise_exception=True, **kwargs):
         """Post data to http server."""
         url = self._get_url(endpoint=endpoint)
         _logger.debug("Will post data to %s", url)
         timeout = kwargs.pop("timeout", 60)  # default timeout a full minute.
         response = requests.put(url, data=data, json=json, timeout=timeout, **kwargs)
+        if not raise_exception:
+            return response
         return self._return_checked_response(endpoint, response)
 
     def _get_url(self, endpoint=None, url_suffix=None):
