@@ -16,7 +16,7 @@
             </xpath>
             <field name="client_id" position="after">
                 <field name="tenant_id" />
-                <field name="client_secret" />
+                <field name="client_secret" password="True" />
                 <field name="provider_type" />
             </field>
         </field>
