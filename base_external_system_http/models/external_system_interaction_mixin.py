@@ -1,6 +1,7 @@
 # Copyright 2023 Therp BV <https://therp.nl>.
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 """Extend base adapter model for connections through http(s)."""
+
 import logging
 
 import requests
@@ -59,16 +60,13 @@ class ExternalSystemInteractionMixin(models.AbstractModel):
                         "system_name": system.name,
                     }
                 )
-        url = (
-            "%(scheme)s://%(host)s%(port)s%(remote_path)s%(endpoint)s%(url_suffix)s"
-            % {
-                "scheme": system.scheme or "https",
-                "host": system.host,
-                "port": ":" + str(system.port) if system.port else "",
-                "remote_path": system.remote_path if system.remote_path else "",
-                "endpoint": endpoint_record.endpoint if endpoint else "",
-                "url_suffix": url_suffix if url_suffix else "",
-            }
+        url = "{scheme}://{host}{port}{remote_path}{endpoint}{url_suffix}".format(
+            scheme=system.scheme or "https",
+            host=system.host,
+            port=":" + str(system.port) if system.port else "",
+            remote_path=system.remote_path if system.remote_path else "",
+            endpoint=endpoint_record.endpoint if endpoint else "",
+            url_suffix=url_suffix if url_suffix else "",
         )
         return url
 
