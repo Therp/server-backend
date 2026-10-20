@@ -41,7 +41,7 @@ class ExternalSystemInteractionOauthMixin(models.AbstractModel):
             raise UserError(
                 _("Not able to get bearer token for system %s.") % self.name
             )
-        headers["Authorization"] = "Bearer %(token)s" % {"token": token}
+        headers["Authorization"] = f"Bearer {token}"
 
     def _get_token(self):
         """Need to override this with concrete implementation."""

@@ -2,6 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 # pylint: disable=no-self-use
 """Provide extra functionality to use Microsoft oauth for applications."""
+
 import logging
 
 import requests
@@ -60,11 +61,7 @@ class AuthOAuthProvider(models.Model):
 
     def _get_access_token_microsoft_client_secret(self):
         """Get access token from Microsoft."""
-        login_url = "%(auth_endpoint)s/%(tenant_id)s%(validation_endpoint)s" % {
-            "auth_endpoint": self.auth_endpoint,
-            "tenant_id": self.tenant_id,
-            "validation_endpoint": self.validation_endpoint,
-        }
+        login_url = f"{self.auth_endpoint}/{self.tenant_id}{self.validation_endpoint}"
         scope = self.scope % self.client_id
         login_params = {
             "client_id": self.client_id,
