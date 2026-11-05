@@ -96,7 +96,16 @@ class ExternalSystemInteractionMixin(models.AbstractModel):
                     "text": str(response.text),
                 },
             )
-            raise UserError(_("Communication failure with %s, check log") % endpoint)
+            raise UserError(
+                _(
+                    "Communication failure with %(endpoint)s.\n"
+                    "Status code: %(status)s\n"
+                    "Response: %(text)s",
+                    endpoint=endpoint,
+                    status=response.status_code,
+                    text=response.text[:1000],
+                )
+            )
         _logger.info(
             "Succesfull communication with endpoint %(endpoint)s",
             {"endpoint": endpoint},
